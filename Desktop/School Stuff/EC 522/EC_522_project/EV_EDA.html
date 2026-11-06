@@ -69,13 +69,13 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Github:</p>
+<p>Github: <a href="https://github.com/tomatsoop/EC522_Forecasting_Project.git" class="uri">https://github.com/tomatsoop/EC522_Forecasting_Project.git</a></p>
 <p>Data Sets: EV Data: https://ember-energy.org/data/monthly-ev-sales-data/</p>
 <p>Crude Oil: https://www.eia.gov/dnav/pet/hist/LeafHandler.ashx?n=pet&amp;s=f000000__3&amp;f=m</p>
 <section id="ev-demand-in-the-us-following-macro-forecasting" class="level2">
 <h2 class="anchored" data-anchor-id="ev-demand-in-the-us-following-macro-forecasting">EV Demand in the US Following Macro Forecasting</h2>
 <p>In this project, we will be forecasting the trends of EV registration using the predictors: Crude Oil Prices, Tax Credit changes, and Car Loan Interest Rates. The model will forecast based on the monthly data collected by EMBER, a company focusing on energy research.</p>
-<p>The target variable is the monthly EV sales in the United States. In the original data set, EMBER collects new passenger cars registered for the first time in the month. In this case, every single new car registered will be considered a sale of a new car (view source data methodology for more). EV in this forecasting data will include Battery Electric as well as Plug-in Hybrid cars. Possible other additional modeling that can be foretasted are (general) combustion and hybrid cars.</p>
+<p>The target variable is the monthly EV sales in the United States. In the original data set, EMBER collects new passenger cars registered for the first time in the month. In this case, every single new car registered will be considered a sale of a new car (view source data methodology for more). EV in this forecasting data will include Battery Electric as well as Plug-in Hybrid cars. Possible other additional modeling that can be forecasted are (general) combustion and hybrid cars.</p>
 <section id="ev-data-table" class="level3">
 <h3 class="anchored" data-anchor-id="ev-data-table">EV Data Table</h3>
 <div class="cell">
@@ -145,24 +145,6 @@ ul.task-list li input[type="checkbox"] {
 <p><img src="EV_EDA_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 632 × 2
-   Date       `U.S. Crude Oil First Purchase Price (Dollars per Barrel)`
-   &lt;date&gt;                                                          &lt;dbl&gt;
- 1 1974-01-15                                                       6.95
- 2 1974-02-15                                                       6.87
- 3 1974-03-15                                                       6.77
- 4 1974-04-15                                                       6.77
- 5 1974-05-15                                                       6.87
- 6 1974-06-15                                                       6.85
- 7 1974-07-15                                                       6.8 
- 8 1974-08-15                                                       6.71
- 9 1974-09-15                                                       6.7 
-10 1974-10-15                                                       6.97
-# ℹ 622 more rows</code></pre>
 </div>
 </div>
 </section>

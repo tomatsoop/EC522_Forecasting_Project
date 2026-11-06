@@ -6,7 +6,7 @@ execute:
   echo: false
 ---
 
-Github:
+Github: <https://github.com/tomatsoop/EC522_Forecasting_Project.git>
 
 Data Sets: EV Data: https://ember-energy.org/data/monthly-ev-sales-data/
 
@@ -28,7 +28,7 @@ crude = read_excel("data/crude_oil.xls", sheet = 2)
 
 In this project, we will be forecasting the trends of EV registration using the predictors: Crude Oil Prices, Tax Credit changes, and Car Loan Interest Rates. The model will forecast based on the monthly data collected by EMBER, a company focusing on energy research.
 
-The target variable is the monthly EV sales in the United States. In the original data set, EMBER collects new passenger cars registered for the first time in the month. In this case, every single new car registered will be considered a sale of a new car (view source data methodology for more). EV in this forecasting data will include Battery Electric as well as Plug-in Hybrid cars. Possible other additional modeling that can be foretasted are (general) combustion and hybrid cars.
+The target variable is the monthly EV sales in the United States. In the original data set, EMBER collects new passenger cars registered for the first time in the month. In this case, every single new car registered will be considered a sale of a new car (view source data methodology for more). EV in this forecasting data will include Battery Electric as well as Plug-in Hybrid cars. Possible other additional modeling that can be forecasted are (general) combustion and hybrid cars.
 
 ### EV Data Table
 
@@ -94,10 +94,6 @@ ev_US |>filter(!Drivetrain %in% c("All drivetrains","Combustion (unspecified)",
   ggplot(aes(x = Date, y = Registrations, color = Drivetrain)) +
   geom_line() +
   labs(title = "Monthly U.S. Vehicle Sales by Drivetrain")
-```
-
-```{r}
-crude
 ```
 
 ### Forecast Horizons 

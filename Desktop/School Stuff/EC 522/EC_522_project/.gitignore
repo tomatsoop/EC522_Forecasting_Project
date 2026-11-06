@@ -1,0 +1,19 @@
+# R session and RStudio files
+.Rproj.user/
+.Rhistory
+.RData
+.RDataTmp
+.Ruserdata
+
+# Quarto temporary files
+.quarto/
+*_cache/
+*_files/
+
+# Credentials
+.Renviron
+.env
+
+# Operating system files
+.DS_Store
+Thumbs.db

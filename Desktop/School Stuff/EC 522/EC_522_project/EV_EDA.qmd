@@ -1,0 +1,113 @@
+---
+title: "EV_US_Demand"
+format: html
+editor: visual
+execute:
+  echo: false
+---
+
+Github:
+
+Data Sets: EV Data: https://ember-energy.org/data/monthly-ev-sales-data/
+
+Crude Oil: https://www.eia.gov/dnav/pet/hist/LeafHandler.ashx?n=pet&s=f000000\_\_3&f=m
+
+```{r}
+#| include: false
+library(tidyverse)
+library(fpp3)
+library(ggtime)
+library(seasonal)
+library(readxl)
+ev = read.csv("data/monthly_ev_sales.csv")
+crude = read_excel("data/crude_oil.xls", sheet = 2)
+
+```
+
+## EV Demand in the US Following Macro Forecasting
+
+In this project, we will be forecasting the trends of EV registration using the predictors: Crude Oil Prices, Tax Credit changes, and Car Loan Interest Rates. The model will forecast based on the monthly data collected by EMBER, a company focusing on energy research.
+
+The target variable is the monthly EV sales in the United States. In the original data set, EMBER collects new passenger cars registered for the first time in the month. In this case, every single new car registered will be considered a sale of a new car (view source data methodology for more). EV in this forecasting data will include Battery Electric as well as Plug-in Hybrid cars. Possible other additional modeling that can be foretasted are (general) combustion and hybrid cars.
+
+### EV Data Table
+
+```{r}
+ev = ev |> filter(Area == "United States")
+
+ev_US = ev |> select(Date, Drivetrain, Registrations)
+ev_US <- ev_US |>
+  mutate(Date = as.Date(Date))
+head(ev_US)
+
+```
+
+```{r}
+crude <- crude |>
+  mutate(Date = as.Date(Date))
+crude
+```
+
+### Target Audience
+
+As we see a rise in carbon emissions, generally one of the solutions within the past decade is to incentive a switch from gas cars to electric or hybrid as a clean energy alternative. This projected forecast is to predict EV sales demand by consumers based on past policy changes, current gas prices, and auto loan interest. If a major shift for EV demand continues, this data can be used for projected outlook at reducing carbon emissions and cleaner transportation systems.
+
+### Data Set and Target Variable
+
+Our data set begins in January 2011 and has been updated monthly since then. The next reporting for October 2026 will take place 2-6 after the end of the month, according to Ember's monthly data. This gives us 189 months worth of data as the information set.
+
+### Accounting for Shocks
+
+One of the ways that can influence consumer behavior is through the EV tax credit.
+
+On September 30th 2025, the new and used EV credit program was ended and looking at the data set below, we see a substantial drop in monthly car sales demand for the month of October of 2025.
+
+Following that, the Section 30c federal tax credit for installing Home EV chargers has ended since June 30, 2026.
+
+This kind of sudden policy change can be considered shock, and while we do see a slight volatility during COVID, the patterns we see are far more substantial post 2020.
+
+### US Total Monthly EV Sales
+
+```{r}
+#| echo: false
+events <- tibble(
+Date = as.Date(c("2022-08-01", "2025-10-01")),
+Event = c("Manufacturing Credit Cap Removed", "EV Tax Credit Removed")
+)
+ev_US |>
+  filter(Drivetrain == "Electric vehicle (BEV+PHEV)") |>
+  ggplot(aes(x = Date, y = Registrations)) +
+  geom_line() + 
+  labs(title = "Monthly US Electric vehicle (BEV+PHEV) Sales") + 
+  geom_vline(
+    data = events,
+    aes(xintercept = Date, color = Event),
+    linetype = "dashed"
+  ) +
+  labs(color = "Policy change", alpha = 0.5)
+```
+
+```{r}
+#| echo: false
+ev_US |>filter(!Drivetrain %in% c("All drivetrains","Combustion (unspecified)",
+                       "Electric vehicle (BEV+PHEV)")) |>
+  ggplot(aes(x = Date, y = Registrations, color = Drivetrain)) +
+  geom_line() +
+  labs(title = "Monthly U.S. Vehicle Sales by Drivetrain")
+```
+
+```{r}
+crude
+```
+
+### Forecast Horizons 
+
+Using the historical data as well as some regressors, the forecast horizon measured in this data set for the US EV demand will follow a 6 month horizon with reports on month 1 and 3. Considering this as a short term shock due to the lack of EV credit for buyers, adding a conditional parameter where policy is in place will be incorporated into the model. As for the short term, a 1, 3, and 6 month forecast may not be accurate given the current situation.
+
+### Predictor variables 
+
+One of the possible predictors used will be the US monthly crude oil prices collected by the US Energy Information Administration. The crude oil data set measure the monthly average of the first oil purchased price per barrel, starting in January 15, 1974 till August 15, 2026. The next release date for September 15th will come in December 1st, 2026. From this data set we will have access to 632 predictor values however the viable data will be used to accommodate the EV series.
+
+Other sets of possible macro factors such as the Energy CPI, lagging the variables may uncover a offset in persistent high energy costs and making the switch in EV. Auto interest rates influence the household decision of purchasing a car. Both of the data sets will be accessed from FRED.
+
+One point of concern that can be factored into this is demand for the Used EV markets. Not measuring changes in demand for used EVs may bias the actual output for the EV market. This forecasting project will model the demand for new EVs so this aspect will be disregarded.
